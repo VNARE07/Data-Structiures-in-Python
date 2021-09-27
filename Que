@@ -1,0 +1,46 @@
+class Que(object):
+    def __init__(self,key = None,value = None):
+        if key != None:
+            node = Node(key,value)
+            self.head = node
+            self.tail = node
+        else:
+            self.head = None
+            self.tail = None
+    def add(self,key,value):
+        node = Node(key,value)
+        cur = self.head
+        if cur == None:
+            self.head = node
+            self.tail = node
+        else:
+            tail = self.tail
+            tail.next = node
+            self.tail = node
+    def pop(self):
+        cur = self.head
+        if cur == None:
+            return None
+        else:
+            fol = cur.next
+            self.head = fol
+            return (cur.key,cur.value)
+class Node(object):
+    def __init__(self,key,value):
+        self.key = key
+        self.value = value
+        self.next = None
+def driver():
+    q = Que()
+    print(q.pop())
+    q.add(1,'varun')
+    print(q.pop())
+    q.add(2,'stark')
+    q.add(3,'sergio')
+    q.add(4,'holland')
+    print(q.pop())
+    print(q.pop())
+    print(q.pop())
+    print(q.pop())
+    print(q.pop())
+driver()
