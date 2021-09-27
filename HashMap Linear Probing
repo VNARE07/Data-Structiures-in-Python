@@ -1,0 +1,133 @@
+class dictionary(object):
+    def __init__(self,key = None,value = None):
+        if key == None:
+            self.dict = [None,None]
+            self.filled = 0
+        else:
+            self.dict = [None,None]
+            self.add(key,value)
+            self.filled = 0
+    def add(self,key,value):
+        self.filled = self.filled + 1
+        lim1 = len(self.dict)//2
+        if self.filled <= lim1:
+            pass
+        else:
+            self.tabledouble()
+        div = len(self.dict)
+        key1 = str(key)
+        if key1.isdigit():
+            mod = key//div
+        else:
+            mod = len(key)//div
+        lim = div - 1
+        while True:
+            if mod > lim:
+                mod = 0
+            else:
+                pass
+            if self.dict[mod] == None or self.dict[mod] == False:
+                self.dict[mod] = (key,value)
+                break
+            else:
+                if self.dict[mod][0] == key:
+                    self.dict[mod] = (key,value)
+                    break
+                else:
+                    pass
+            mod = mod + 1
+    def tabledouble(self):
+        self.l1 = [None]*(len(self.dict)*2)
+        for i in range(len(self.dict)):
+            if self.dict[i] != None and self.dict[i] != True and self.dict[i] != False:
+                key = self.dict[i][0]
+                value = self.dict[i][1]
+                self.adddouble(key,value)
+            else:
+                pass
+        self.dict = self.l1[:]
+        self.l1.clear()
+    def adddouble(self,key,value):
+        div = len(self.l1)
+        key1 = str(key)
+        if key1.isdigit():
+            mod = key//div
+        else:
+            mod = len(key)//div
+        lim = div - 1
+        while True:
+            if mod > lim:
+                mod = 0
+            else:
+                pass
+            if self.l1[mod] == None or self.l1[mod] == False:
+                self.l1[mod] = (key,value)
+                break
+            else:
+                pass
+            mod = mod + 1
+    def delete(self,key):
+        div = len(self.dict)
+        lim = div - 1
+        key1 = str(key)
+        if key1.isdigit():
+            mod = key//div
+        else:
+            mod = len(key)//div
+        count = 0
+        while True:
+            if count == div:
+                break
+            else:
+                pass
+            if mod > lim:
+                mod = 0
+            else:
+                pass
+            if self.dict[mod] != None and self.dict[mod] != None:
+                if self.dict[mod][0] == key:
+                    self.dict[mod] = False
+                else:
+                    pass
+            else:
+                pass
+            count = count + 1
+            mod = mod + 1
+    def findkey(self,key):
+        div = len(self.dict)
+        lim = div - 1
+        key1 = str(key)
+        if key1.isdigit():
+            mod = key//div
+        else:
+            mod = len(key)//div
+        count = 0
+        while True:
+            if count == div:
+                break
+            else:
+                pass
+            if mod > lim:
+                mod = 0
+            if self.dict[mod] != None and self.dict[mod] != None:
+                if self.dict[mod][0] == key:
+                    return self.dict[mod]
+                else:
+                    pass
+            else:
+                pass
+            count = count + 1
+            mod = mod + 1
+        return "None"
+            
+def driver():
+    d = dictionary()
+    d.add("varun",20)
+    d.add("stark",20)
+    d.add(50,10)
+    d.add("mike",40)
+    print(d.dict)
+    print(d.findkey(50))
+    print(d.delete('mike'))
+    print(d.dict)
+driver()
