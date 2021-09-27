@@ -1,0 +1,78 @@
+class minHeap(object):
+    def __init__(self,key = None,value = None):
+        if key == None:
+            self.heap = []
+        else:
+            self.heap = [(key,value)]
+    def add(self,key,value):
+        self.heap.append((key,value))
+        last = len(self.heap)-1
+        self.bubble(last)
+    def bubble(self,child):
+        while True:
+            if child == 0:
+                break
+            else:
+                if child % 2:
+                    par = (child-1)//2
+                else:
+                    par = child//2
+                if self.heap[par][1] <= self.heap[child][1]:
+                    break
+                else:
+                    self.swap(par,child)
+                    child = par
+    def pop(self):
+        if len(self.heap) == 0:
+            return None
+        else:
+            start = 0
+            last = len(self.heap)-1
+            self.swap(start,last)
+            val = self.heap.pop()
+            len1 = len(self.heap)
+            if len1 == 0:
+                pass
+            else:
+                lim = len1 - 1
+                self.sink(lim)
+            return val
+    def sink(self,lim):
+        par = 0
+        while True:
+            left = (par*2)+1
+            right = (par*2)+2
+            if left > lim and right > lim:
+                break
+            elif left < lim and right <= lim:
+                if self.heap[par][1] <= self.heap[left][1] and self.heap[par][1] <= self.heap[right][1]:
+                    break
+                else:
+                    if self.heap[left][1] <= self.heap[right][1]:
+                        self.swap(par,left)
+                        par = left
+                    else:
+                        self.swap(par,right)
+                        par = right
+            else:
+                if self.heap[left][1] < self.heap[par][1]:
+                    self.swap(par,left)
+                    par = left
+                else:
+                    break
+    def swap(self,s,e):
+        temp = self.heap[s]
+        self.heap[s] = self.heap[e]
+        self.heap[e] = temp
+def driver():
+    h = minHeap()
+    h.add(1,3)
+    h.add(2,10)
+    h.add(1,1)
+    print(h.pop())
+    h.add(2,2)
+    print(h.pop())
+    print(h.pop())
+    print(h.pop())
+    print(h.pop())
+driver()
