@@ -1,0 +1,51 @@
+class DynamicArray(object):
+    def __init__(self,value = None):
+        if value == None:
+            self.list = [None,None]
+            self.last_element = 0
+            self.filled = 0
+        else:
+            self.list = [value,None]
+            self.last_element = 0
+            self.filled = 1
+    def add(self,value):
+        lim = len(self.list)//2
+        if self.filled == lim:
+            self.doublelist()
+        else:
+            pass
+        self.last_element = self.last_element + 1
+        self.list[self.last_element] = value
+        self.filled = self.filled + 1
+    def doublelist(self):
+        l2 = [None]*(len(self.list)*2)
+        for i in range(self.last_element+1):
+            l2[i] = self.list[i]
+        self.list = l2[:]
+    def pop(self):
+        if self.filled == 0:
+            return None
+        else:
+            self.swap(self.last_element,len(self.list)-1)
+            self.last_element = self.last_element -1
+            self.filled = self.filled - 1
+            val = self.list[len(self.list)-1]
+            self.list[len(self.list)-1] = None
+            return val
+    def swap(self,s,l):
+        temp = self.list[l]
+        self.list[l] = self.list[s]
+        self.list[s] = temp
+def driver():
+    da = DynamicArray()
+    da.add(3)
+    da.add(4)
+    da.add(5)
+    print(da.pop())
+    print(da.pop())
+    print(da.pop())
+    print(da.pop())
+    da.add(5)
+    print(da.pop())
+    print(da.pop())
+driver()
