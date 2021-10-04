@@ -1,0 +1,181 @@
+class Set(object):
+    def __init__(self,v1 = None,v2 = None):
+        if v1 == None:
+            self.set = {}
+            self.size = {}
+            self.mappings = {}
+        else:
+            self.set = {v1:v1,v2:v1}
+            self.size = {v1:2}
+            self.mappings = {v1:[v2],v2:[]}
+    def find(self,v1):
+        if v1 in self.set.keys():
+            p1 = self.findparent(v1)
+            return (p1,self.size[p1])
+        else:
+            return None
+    def add(self,v1,v2):
+        print(v1,v2)
+        if v1 not in self.set.keys() and v2 not in self.set.keys():
+            self.setparent(v1,v1)
+            self.setparent(v2,v1)
+            self.setsize(v1,2)
+            self.setmappings(v1,v2)
+            self.setmappings(v2)
+        elif v1 in self.set.keys() and v2 not in self.set.keys():
+            p1 = self.findparent(v1)
+            s1 = self.getsize(p1)
+            self.setparent(v2,p1)
+            self.setsize(p1,s1+1)
+            self.setmappings(p1,v2)
+            self.setmappings(v2)
+        elif v1 not in self.set.keys() and v2 in self.set.keys():
+            p2 = self.findparent(v2)
+            s2 = self.getsize(p2)
+            self.setparent(v1,p2)
+            self.setsize(p2,s2+1)
+            self.setmappings(p2,v1)
+            self.setmappings(v1)
+        else:
+            p1 = self.findparent(v1)
+            p2 = self.findparent(v2)
+            s1 = self.getsize(p1)
+            s2 = self.getsize(p2)
+            if p1 != p2:
+                if s1 >= s2:
+                    self.setparent(p2,p1)
+                    newsize = s1 + s2
+                    self.setsize(p1,newsize)
+                    self.removesize(p2)
+                    self.setmappings(p1,p2)
+                else:
+                    self.setparent(p1,p2)
+                    newsize = s1 + s2
+                    self.setsize(p2,newsize)
+                    self.removesize(p1)
+                    self.setmappings(p2,p1)
+            else:
+                pass
+    def setmappings(self,par,child = None):
+        if child == None:
+            if par in self.mappings.keys():
+                pass
+            else:
+                if par in self.mappings.keys():
+                    pass
+                else:
+                    self.mappings[par] = []
+        else:
+            if par in self.mappings.keys():
+                self.mappings[par].append(child)
+            else:
+                self.mappings[par] = [child]
+    def remove(self,v1):
+        self.updatemappings(v1)
+        del self.set[v1]
+        del self.mappings[v1]
+    def setsize(self,root,size):
+        self.size[root] = size
+    def setparent(self,child,parent):
+        self.set[child] = parent
+    def getsize(self,root):
+        return self.size[root]
+    def removesize(self,root):
+        del self.size[root]
+    def findparent(self,child):
+        while True:
+            par = self.set[child]
+            if par == child:
+                return par
+            else:
+                child = par
+    def updatemappings(self,v1):
+        par = self.set[v1]
+        if v1 == par:
+            child = self.getchild(v1)
+            if child != None:
+                self.set[child] = child
+                self.size[child] = self.size[par] - 1
+                self.mappings[child] = []
+                for i in self.mappings[v1]:
+                    self.set[i] = child
+                    if i != child:
+                        self.mappings[child].append(i)
+                    else:
+                        pass
+            else:
+                pass
+            del self.size[par]
+        else:
+            p1 = self.findparent(par)
+            s1 = self.size[p1]
+            self.size[p1] = s1 - 1
+            for i in self.mappings[v1]:
+                self.mappings[p1].append(i)
+                self.set[i] = p1
+    def getchild(self,par):
+        l1 = self.mappings[par]
+        print(l1,par)
+        if len(l1) == 0:
+            return None
+        else:
+            return l1[0]
+def driver():
+    s = Set()
+    s.add(1,2)
+    print(s.find(1))
+    print(s.set)
+    print(s.mappings)
+    s.add(3,4)
+    print(s.find(3))
+    print(s.set)
+    print(s.mappings)
+    s.add(5,7)
+    print(s.find(7))
+    print(s.set)
+    print(s.mappings)
+    s.add(10,9)
+    print(s.find(9))
+    print(s.set)
+    print(s.mappings)
+    s.add(11,8)
+    print(s.find(5))
+    print(s.set)
+    print(s.mappings)
+    s.add(10,15)
+    print(s.find(10))
+    print(s.set)
+    print(s.mappings)
+    s.add(25,15)
+    print(s.find(25))
+    print(s.set)
+    print(s.mappings)
+    s.add(7,91)
+    print(s.find(91))
+    print(s.set)
+    print(s.mappings)
+    s.add(7,10)
+    print(s.find(10))
+    print(s.set)
+    print(s.mappings)
+    s.remove(10)
+    print(s.find(5))
+    print(s.set)
+    print(s.mappings)
+    s.add(1,3)
+    print(s.find(1))
+    print(s.set)
+    print(s.mappings)
+    s.add(1,7)
+    print(s.find(1))
+    print(s.set)
+    print(s.mappings)
+    s.remove(5)
+    print(s.find(10))
+    print(s.set)
+    print(s.mappings)
+    s.remove(1)
+    print(s.find(4))
+    print(s.set)
+    print(s.mappings)
+driver()
