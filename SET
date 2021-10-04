@@ -1,19 +1,29 @@
 class Set(object):
     def __init__(self,v1 = None,v2 = None):
+        # if just set object is created with no arguments passed then this just declares the sets attributes
         if v1 == None:
+            # this self.set is the actual set with mapping of parent pointers this is what makes the insert possilbe
             self.set = {}
+            # this self.size has the size of the root node or the size of each set
             self.size = {}
+            # self.mappings store the child pointers ie it the reverse of the set it will come very handy in the remove opertion
             self.mappings = {}
+        # if set object is created and arguments are passed
         else:
+            # the parent of v2 = v1 and parent of v1 = v1 
+            # when we say the parent of one value = that value that means its the root value here v1 is the root that means v2 is in the set v1
             self.set = {v1:v1,v2:v1}
             self.size = {v1:2}
+            # v1 has a child v2 and v2 has no child
             self.mappings = {v1:[v2],v2:[]}
+    # this find method finds in which set the passed value belongs to and how many values are there in the set
     def find(self,v1):
         if v1 in self.set.keys():
             p1 = self.findparent(v1)
             return (p1,self.size[p1])
         else:
             return None
+    # this add method does the union of the 2 passed arguments
     def add(self,v1,v2):
         print(v1,v2)
         if v1 not in self.set.keys() and v2 not in self.set.keys():
@@ -56,6 +66,7 @@ class Set(object):
                     self.setmappings(p2,p1)
             else:
                 pass
+    # this set method sets the mappings of the passed arguments ie it sets the parnet child relationship
     def setmappings(self,par,child = None):
         if child == None:
             if par in self.mappings.keys():
@@ -70,10 +81,12 @@ class Set(object):
                 self.mappings[par].append(child)
             else:
                 self.mappings[par] = [child]
+    # this remove method removes node from the set
     def remove(self,v1):
         self.updatemappings(v1)
         del self.set[v1]
         del self.mappings[v1]
+    # this set size method takes in the argument root node of set and size of set as an arguments
     def setsize(self,root,size):
         self.size[root] = size
     def setparent(self,child,parent):
